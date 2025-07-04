@@ -115,7 +115,7 @@ class GUIAniMultiTCPServer2 {
                 if (line.startsWith("face,place") && animation != null) {
                     System.out.println("受信完了 :" + line);
                     /**
-                     * *課題はここからを改造**
+                     * *課題ここからを改造**
                      */
 
                     String[] sline = line.split(",");
