@@ -7,6 +7,8 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -24,6 +26,8 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
 
     private int INIT_BALLNUM = 3;
     private GUIAnimationBall[] myBallRims = new GUIAnimationBall[INIT_BALLNUM];
+    // private Bullet[] bullets = new Bullet[INIT_BULLETNUM];
+    private static ArrayList<Bullet> bullets = new ArrayList<>();
 
     public static void main(String[] args) {// main 関数
         /* Frame関係調整：開始 */
@@ -37,6 +41,13 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         /* Frame関係調整終了：終了 */
+
+        Bullet a = new Bullet(250, 250, 3, 2, 3);
+        Bullet b = new Bullet(250, 260, 2, -2, 3);
+        Bullet c = new Bullet(250, 270, 5, 1, 3);
+        bullets.add(a);
+        bullets.add(b);
+        bullets.add(c);
 
         /**
          * ********************
@@ -134,6 +145,12 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
             for (int i = 0; i < myBallRims.length; i++) {
                 myBallRims[i].move();
             }
+            for (int i = 0; i < bullets.size(); i++) {
+                bullets.get(i).move();
+                if(bullets.get(i).isOutOfWindow()){
+                    bullets.remove(i);
+                }
+            }
             ellipse.setFrame(ellipse.getX(), ellipse.getY(), counter, counter);
         }
     }// doNextStep() end
@@ -146,6 +163,9 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
 
         for (int i = 0; i < myBallRims.length; i++) {
             myBallRims[i].draw(g2);
+        }
+        for (int i = 0; i < bullets.size(); i++) {
+            bullets.get(i).draw(g2);
         }
     }// paintProcess end
 

@@ -52,6 +52,9 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener {
             case KeyEvent.VK_DOWN:
                 faceY += MOVE;
                 break;
+            case KeyEvent.VK_Z:
+                faceY += MOVE;
+                break;
             default:
                 return;
         }
