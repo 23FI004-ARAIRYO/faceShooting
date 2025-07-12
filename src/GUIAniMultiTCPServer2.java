@@ -149,11 +149,23 @@ class GUIAniMultiTCPServer2 {
 
                     animation.setFaceEmotion(which, emotion);
 
+                } else // 先頭がbullet-->弾生成
+                if (line.startsWith("bullet") && animation != null) {
+
+                    String[] sline = line.split(",");
+                    System.out.println("type: " + sline[1]);
+                    System.out.println("x: " + sline[2]);
+                    System.out.println("y: " + sline[3]);
+
+                    int type = Integer.parseInt(sline[1]);
+                    int x = Integer.parseInt(sline[2]);
+                    int y = Integer.parseInt(sline[3]);
+
+                    animation.generateBullet(type, x, y);
                 }
 
                 // Clientにメッセージ送信
-                sendout.println("Message is received at Server. Thankyou! your message is ["
-                        + line + "]");
+                sendout.println("Message is received at Server. message:[" + line + "]");
 
             } catch (IOException ioex) {
                 ioex.printStackTrace();

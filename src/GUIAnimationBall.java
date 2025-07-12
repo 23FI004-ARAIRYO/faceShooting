@@ -18,8 +18,11 @@ class GUIAnimationBall {
     int x;
     int y;
     int radius; // 半径
+    int centerX;
+    int centerY;
     Color basicColor = Color.gray;
-    final Color initColor = Color.gray;
+    Color initColor = Color.gray;
+    public boolean damagedFlag = false;
 
     double xDir = -1; // 1:+方向 -1: -方向
     double yDir = 1;
@@ -34,12 +37,13 @@ class GUIAnimationBall {
         yDir = rdn.nextDouble() * 10 - 5;
         this.w = w;
         this.h = h;
+        this.radius = 20;
 
-        setPosition(rdn.nextInt(w), rdn.nextInt(h - 5));
-        setRadius(rdn.nextInt(30) + 30);// 30-60のサイズの顔の輪郭
+        setPosition(230, 230);
+        setRadius(radius);// 30-60のサイズの顔の輪郭
 
-        this.basicColor = new Color(rdn.nextInt(255), rdn.nextInt(255),
-                rdn.nextInt(255));
+        this.basicColor = new Color(rdn.nextInt(256), rdn.nextInt(256), rdn.nextInt(256));
+        this.initColor = basicColor;
 
         facelook = new GUIAnimatinFaceLook();
 
@@ -107,10 +111,41 @@ class GUIAnimationBall {
     void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
+        centerX = x + radius;
+        centerY = y + radius;
     }
 
     void setRadius(int r) {
         this.radius = r;
+    }
+
+    public int getRadius(){
+        return radius;
+    }
+
+    public void damage(){
+        setBasicColor(Color.red);
+        damagedFlag = true;
+    }
+
+    public boolean isDamaged(){
+        return damagedFlag;
+    }
+
+    public void damageReset(){
+        basicColor = initColor;
+    }
+
+    public boolean collision(int targetX, int targetY){
+        if(Math.sqrt((targetX - centerX) * (targetX - centerX) +
+                    (targetY - centerY) * (targetY - centerY)) <= radius){
+            return true;
+        }
+        return false;
+    }
+
+    public double getDistance(double x, double y){
+        return Math.sqrt((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY));
     }
 
     void draw(Graphics g) {

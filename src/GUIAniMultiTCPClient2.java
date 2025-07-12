@@ -15,6 +15,7 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener {
     private int faceX = 100;
     private int faceY = 100;
     private final int MOVE = 10; // 移動量
+    private int radius = 20;
 
     private String hostname = "localhost";
 
@@ -53,7 +54,7 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener {
                 faceY += MOVE;
                 break;
             case KeyEvent.VK_Z:
-                faceY += MOVE;
+                doClientAccess("bullet,2," + (faceX + radius) + "," + (faceY + radius));
                 break;
             default:
                 return;
@@ -73,7 +74,7 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener {
             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader rd = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            System.out.println("Send: " + msg);
+            System.out.println("Send  : " + msg);
             writer.println(msg);
 
             String response = rd.readLine();

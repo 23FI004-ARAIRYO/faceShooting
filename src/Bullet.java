@@ -25,7 +25,8 @@ public class Bullet {
         y += vy;
     }
 
-    public void setColor(){
+    public void setColor(Color color){
+        this.color = color;
     }
 
     public void setPosition(int x, int y){
