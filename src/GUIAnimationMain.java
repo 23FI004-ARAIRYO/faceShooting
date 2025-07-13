@@ -64,6 +64,32 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
         timer.start();
     }
 
+    public int getCurrentFaceCount() {
+        return myBallRims.length;
+    }
+
+    public void addNewFace() {
+        GUIAnimationBall[] newBalls = new GUIAnimationBall[myBallRims.length + 1];
+        System.arraycopy(myBallRims, 0, newBalls, 0, myBallRims.length);
+        newBalls[myBallRims.length] = new GUIAnimationBall(500, 500); // 仮にサイズ固定
+        myBallRims = newBalls;
+    }
+
+    public synchronized void removeFace(int index) {
+        if (index < 0 || index >= myBallRims.length) {
+            return;
+        }
+
+        GUIAnimationBall[] newBalls = new GUIAnimationBall[myBallRims.length - 1];
+        for (int i = 0, j = 0; i < myBallRims.length; i++) {
+            if (i != index) {
+                newBalls[j++] = myBallRims[i];
+            }
+        }
+        myBallRims = newBalls;
+        System.out.println("顔オブジェクト削除: index=" + index);
+    }
+
     // i番目の顔の位置を変更する関数。
     public void setFacePlace(int i, int x, int y, String message) {
         System.out.println("setFacePlace() :" + message);
@@ -91,8 +117,8 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
         複数の弾の座標を引数や文字列でやりとりすると煩雑になるため、
         ここでは弾のタイプと基準位置を引数とし、
         基準位置をもとに複数の弾を生成する
-    */
-    public void generateBullet(int type, int x, int y){
+     */
+    public void generateBullet(int type, int x, int y) {
         Random rand = new Random();
         switch (type) {
             case 0:
@@ -113,13 +139,15 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
                 double angle3 = angle + Math.PI / 3 * 4;
                 rotateAngle += 10;
                 System.out.println(rotateAngle);
-                if(rotateAngle >= 360) rotateAngle = 0;
-                bullets.add(new Bullet(x +  (int)(Math.sin(angle) * 20), y + (int)(Math.cos(angle) * 20),
-                                            (int)(Math.sin(angle) * 20),     (int)(Math.cos(angle) * 20), 3));
-                bullets.add(new Bullet(x +  (int)(Math.sin(angle2) * 20), y + (int)(Math.cos(angle2) * 20),
-                                            (int)(Math.sin(angle2) * 20),     (int)(Math.cos(angle2) * 20), 3));
-                bullets.add(new Bullet(x +  (int)(Math.sin(angle3) * 20), y + (int)(Math.cos(angle3) * 20),
-                                            (int)(Math.sin(angle3) * 20),     (int)(Math.cos(angle3) * 20), 3));
+                if (rotateAngle >= 360) {
+                    rotateAngle = 0;
+                }
+                bullets.add(new Bullet(x + (int) (Math.sin(angle) * 20), y + (int) (Math.cos(angle) * 20),
+                        (int) (Math.sin(angle) * 20), (int) (Math.cos(angle) * 20), 3));
+                bullets.add(new Bullet(x + (int) (Math.sin(angle2) * 20), y + (int) (Math.cos(angle2) * 20),
+                        (int) (Math.sin(angle2) * 20), (int) (Math.cos(angle2) * 20), 3));
+                bullets.add(new Bullet(x + (int) (Math.sin(angle3) * 20), y + (int) (Math.cos(angle3) * 20),
+                        (int) (Math.sin(angle3) * 20), (int) (Math.cos(angle3) * 20), 3));
                 break;
             default:
                 break;
@@ -179,7 +207,7 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
             // ボールの移動
             for (int i = 0; i < myBallRims.length; i++) {
                 myBallRims[i].move();
-                if(myBallRims[i].isDamaged()){
+                if (myBallRims[i].isDamaged()) {
                     myBallRims[i].damageReset();
                 }
             }
@@ -188,13 +216,13 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
                 bullets.get(i).move();
                 // 弾の衝突判定
                 for (int j = 0; j < myBallRims.length; j++) {
-                    if(myBallRims[j].collision(bullets.get(i).getX(), bullets.get(i).getY())){
+                    if (myBallRims[j].collision(bullets.get(i).getX(), bullets.get(i).getY())) {
                         // ダメージ判定
                         myBallRims[j].damage();
                     }
                 }
                 // 画面外に出たら削除
-                if(bullets.get(i).isOutOfWindow()){
+                if (bullets.get(i).isOutOfWindow()) {
                     bullets.remove(i);
                 }
             }
@@ -207,7 +235,6 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
         // g2.setColor(Color.BLUE);
         // g2.draw(ellipse);
         // g2.drawString(counter + "Step経過", 10, 10);
-
         for (int i = 0; i < myBallRims.length; i++) {
             myBallRims[i].draw(g2);
         }

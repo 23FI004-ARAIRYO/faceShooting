@@ -95,6 +95,22 @@ class GUIAniMultiTCPServer2 {
                     System.exit(1);
                 }
 
+                if (line.equals("register")) {
+                    int newClientId = registerNewClient();
+                    sendout.println(newClientId);
+                    return;
+                }
+
+                // SrvWorkerThread 内の run メソッドに追加
+                if (line.startsWith("remove")) {
+                    String[] sline = line.split(",");
+                    int which = Integer.parseInt(sline[1]);
+                    animation.removeFace(which);
+                    System.out.println("クライアント " + which + " の顔オブジェクトを削除しました。");
+                    sendout.println("removed client " + which);
+                    return;
+                }
+
                 //受け取ったコマンドがface,colorで始まりかつanimationがあるなら。
                 if (line.startsWith("face,color") && animation != null) {
                     String[] sline = line.split(",");
@@ -179,6 +195,14 @@ class GUIAniMultiTCPServer2 {
                 }
             }// finall end
         }// run end
+
+        private synchronized int registerNewClient() {
+            int newId = animation.getCurrentFaceCount();
+            animation.addNewFace();
+            System.out.println("新クライアント登録: ID=" + newId);
+            return newId;
+        }
+
     }// SrvWorkerThread end
 
 }// class MultiServerSample end
