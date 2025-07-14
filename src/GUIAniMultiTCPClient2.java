@@ -17,6 +17,7 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
     private int faceX = 100;
     private int faceY = 100;
     private final int MOVE = 10; // 移動量
+    final static int WINDOW_SIZE = 777;
     private int radius = 20;
     private int currentBulletType = 0;  // 現在の弾タイプ
     private final int MAX_BULLET_TYPE = 3; // タイプは0,1,2の3種類
@@ -95,18 +96,22 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
         switch (keyCode) {
             case KeyEvent.VK_LEFT:
                 faceX -= MOVE;
+                if(faceX < 0) faceX = 0;
                 sendPosition();
                 break;
             case KeyEvent.VK_RIGHT:
                 faceX += MOVE;
+                if(WINDOW_SIZE < faceX + (radius * 3)) faceX = WINDOW_SIZE - (radius * 3);
                 sendPosition();
                 break;
             case KeyEvent.VK_UP:
                 faceY -= MOVE;
+                if(faceY < 0) faceY = 0;
                 sendPosition();
                 break;
             case KeyEvent.VK_DOWN:
                 faceY += MOVE;
+                if(WINDOW_SIZE < faceY + (radius * 4)) faceY = WINDOW_SIZE - (radius * 4);
                 sendPosition();
                 break;
             case KeyEvent.VK_Z:

@@ -20,6 +20,7 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
 
     final int FRAME_SPEED = 50;
     final private double MAX_Counter = 5000;
+    final static int WINDOW_SIZE = 777;
 
     private boolean isResetProcess = true;
     private double counter;
@@ -39,7 +40,7 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
         JFrame frame = new JFrame("GUIAnimationFaceObjMain");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(animation);
-        frame.setSize(550, 550);
+        frame.setSize(WINDOW_SIZE, WINDOW_SIZE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         /* Frame関係調整終了：終了 */
@@ -71,7 +72,7 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
     public void addNewFace() {
         GUIAnimationBall[] newBalls = new GUIAnimationBall[myBallRims.length + 1];
         System.arraycopy(myBallRims, 0, newBalls, 0, myBallRims.length);
-        newBalls[myBallRims.length] = new GUIAnimationBall(500, 500); // 仮にサイズ固定
+        newBalls[myBallRims.length] = new GUIAnimationBall(WINDOW_SIZE, WINDOW_SIZE); // 仮にサイズ固定
         myBallRims = newBalls;
     }
 
@@ -130,8 +131,8 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
             case 1:
                 bullets.add(new Bullet(x + 5, y + 25, 0, 20, 3));
                 bullets.add(new Bullet(x - 5, y + 25, 0, 20, 3));
-                bullets.add(new Bullet(x + 5, y + 25, 0, -20, 3));
-                bullets.add(new Bullet(x - 5, y + 25, 0, -20, 3));
+                bullets.add(new Bullet(x + 5, y - 25, 0, -20, 3));
+                bullets.add(new Bullet(x - 5, y - 25, 0, -20, 3));
                 break;
             case 2:
                 double angle = Math.toRadians(rotateAngle);

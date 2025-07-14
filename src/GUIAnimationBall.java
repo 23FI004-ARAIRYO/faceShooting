@@ -12,8 +12,8 @@ class GUIAnimationBall {
 
     String emotion = "normal";
 
-    int w = 500;
-    int h = 500;
+    int w = 777;
+    int h = 777;
 
     int x;
     int y;
@@ -39,7 +39,7 @@ class GUIAnimationBall {
         this.h = h;
         this.radius = 20;
 
-        setPosition(230, 230);
+        setPosition(rdn.nextInt(300) + 240, rdn.nextInt(300) + 240);
         setRadius(radius);// 30-60のサイズの顔の輪郭
 
         this.basicColor = new Color(rdn.nextInt(256), rdn.nextInt(256), rdn.nextInt(256));

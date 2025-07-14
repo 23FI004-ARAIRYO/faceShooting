@@ -9,8 +9,8 @@ public class Bullet {
     private int radius;
     private Color color = Color.red;
 
-    int w = 500;
-    int h = 500;
+    int w = 777;
+    int h = 777;
 
     public Bullet(int x, int y, int vx, int vy, int radius){
         this.x = x;
