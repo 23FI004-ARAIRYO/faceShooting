@@ -29,7 +29,10 @@ class GUIAnimationBall {
     private int strCounter;
 
     private String basicLabelMessage = "(空白:未受信)";
-
+    //HP
+    private int maxHP = 100;
+    private int currentHP = 100;
+    private boolean isDead = false; 
     GUIAnimationBall(int w, int h) {
 
         rdn = new Random();
@@ -124,8 +127,18 @@ class GUIAnimationBall {
     }
 
     public void damage(){
+    if (isDead) return; // 死亡済みなら何もしない
+
+    currentHP--;
+    if (currentHP <= 0) {
+        currentHP = 0;
+        isDead = true;
+        setEmotion("dead"); // 表情を「死」に変える
+        setBasicColor(Color.darkGray); // 色も変える（任意）
+    } else {
         setBasicColor(Color.red);
         damagedFlag = true;
+    }
     }
 
     public boolean isDamaged(){
@@ -169,7 +182,24 @@ class GUIAnimationBall {
         facelook.makeFace(g, emotion);
 
         g.setColor(initColor);
+        // HPバー（赤背景＋緑残量）
+        g.setColor(Color.red);
+        g.fillRect(x, y + 2 * radius + 5, 2 * radius, 5); // 赤背景バー
+        g.setColor(Color.green);
+        int hpWidth = (int)((double)currentHP / maxHP * 2 * radius);
+        g.fillRect(x, y + 2 * radius + 5, hpWidth, 5); // 緑の残HP部分
 
+        // 死亡時は強制的に "dead" を渡す（誤って他の感情が残っていても上書き）
+        if (isDead) {
+            facelook.makeFace(g, "dead");
+        } else {
+            facelook.makeFace(g, emotion);
+        }
     }
-
+    public void resetHP() {
+            this.currentHP = this.maxHP;
+            this.isDead = false;
+            this.setEmotion("normal");
+            this.setBasicColor(initColor); // 元の色に戻す
+    }
 }// ball rim end

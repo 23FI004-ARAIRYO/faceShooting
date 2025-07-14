@@ -120,6 +120,15 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
             case KeyEvent.VK_X:
                 currentBulletType = (currentBulletType + 1) % MAX_BULLET_TYPE;
                 System.out.println("弾タイプ切替: " + currentBulletType);
+            // 弾タイプに応じて表情切り替え
+                String emotion = "normal"; // デフォルト
+            switch (currentBulletType) {
+            case 0: emotion = "normal"; break;
+            case 1: emotion = "smile"; break;
+            case 2: emotion = "angry"; break; 
+            }
+            // サーバーに emotion を送信
+            doClientAccess("face,emotion," + clientId + "," + emotion);
                 break;
             default:
                 return;
