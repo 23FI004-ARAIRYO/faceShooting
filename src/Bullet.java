@@ -8,16 +8,18 @@ public class Bullet {
     private int vy;
     private int radius;
     private Color color = Color.red;
+    private int shooterID;
 
     int w = 777;
     int h = 777;
 
-    public Bullet(int x, int y, int vx, int vy, int radius){
+    public Bullet(int x, int y, int vx, int vy, int radius, int shooterID){
         this.x = x;
         this.y = y;
         this.vx = vx;
         this.vy = vy;
         this.radius = radius;
+        this.shooterID = shooterID;
     }
 
     public void move(){
@@ -72,5 +74,8 @@ public class Bullet {
     }
     public void setRadis(int radius){
         this.radius = radius;
+    }
+    public int getShooterID(){
+        return shooterID;
     }
 }// bullet end

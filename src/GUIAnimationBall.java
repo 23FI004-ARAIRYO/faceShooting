@@ -20,6 +20,7 @@ class GUIAnimationBall {
     int radius; // 半径
     int centerX;
     int centerY;
+    int score;
     Color basicColor = Color.gray;
     Color initColor = Color.gray;
     public boolean damagedFlag = false;
@@ -41,6 +42,7 @@ class GUIAnimationBall {
         this.w = w;
         this.h = h;
         this.radius = 20;
+        this.score = 0;
 
         setPosition(rdn.nextInt(300) + 240, rdn.nextInt(300) + 240);
         setRadius(radius);// 30-60のサイズの顔の輪郭
@@ -127,22 +129,26 @@ class GUIAnimationBall {
     }
 
     public void damage(){
-    if (isDead) return; // 死亡済みなら何もしない
+        if (isDead) return; // 死亡済みなら何もしない
 
-    currentHP--;
-    if (currentHP <= 0) {
-        currentHP = 0;
-        isDead = true;
-        setEmotion("dead"); // 表情を「死」に変える
-        setBasicColor(Color.darkGray); // 色も変える（任意）
-    } else {
-        setBasicColor(Color.red);
-        damagedFlag = true;
-    }
+        currentHP--;
+        if (currentHP <= 0) {
+            currentHP = 0;
+            isDead = true;
+            setEmotion("dead"); // 表情を「死」に変える
+            setBasicColor(Color.darkGray); // 色も変える（任意）
+        } else {
+            setBasicColor(Color.red);
+            damagedFlag = true;
+        }
     }
 
     public boolean isDamaged(){
         return damagedFlag;
+    }
+
+    public boolean isDead(){
+        return isDead;
     }
 
     public void damageReset(){
@@ -150,8 +156,9 @@ class GUIAnimationBall {
     }
 
     public boolean collision(int targetX, int targetY){
+        // 弾が当たっていてかつ自身が生きている
         if(Math.sqrt((targetX - centerX) * (targetX - centerX) +
-                    (targetY - centerY) * (targetY - centerY)) <= radius){
+                    (targetY - centerY) * (targetY - centerY)) <= radius && !isDead){
             return true;
         }
         return false;
@@ -196,10 +203,19 @@ class GUIAnimationBall {
             facelook.makeFace(g, emotion);
         }
     }
+
     public void resetHP() {
             this.currentHP = this.maxHP;
             this.isDead = false;
             this.setEmotion("normal");
             this.setBasicColor(initColor); // 元の色に戻す
+    }
+
+    public void setScore(int score){
+        this.score = score;
+    }
+
+    public int getScore(){
+        return score;
     }
 }// ball rim end

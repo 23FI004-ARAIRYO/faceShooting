@@ -43,7 +43,7 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
         System.out.println("取得したクライアントID: " + clientId);
 
         // 初期位置を送信
-        doClientAccess("face,place,0," + faceX + "," + faceY);
+        doClientAccess("face,place," + clientId + "," + faceX + "," + faceY);
     }
 
     private int registerClient() {
@@ -123,7 +123,7 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
                 sendPosition();
                 break;
             case KeyEvent.VK_Z:
-                doClientAccess("bullet," + currentBulletType + "," + (faceX + radius) + "," + (faceY + radius));
+                doClientAccess("bullet," + currentBulletType + "," + (faceX + radius) + "," + (faceY + radius) + "," + clientId);
                 break;
             case KeyEvent.VK_X:
                 currentBulletType = (currentBulletType + 1) % MAX_BULLET_TYPE;
@@ -143,6 +143,10 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
                 }
                 // サーバーに emotion を送信
                 doClientAccess("face,emotion," + clientId + "," + emotion);
+                break;
+            case KeyEvent.VK_Q:
+                doClientAccess("remove," + clientId);
+                System.exit(0);
                 break;
             default:
                 return;

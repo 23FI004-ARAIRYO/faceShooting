@@ -119,37 +119,37 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
         ここでは弾のタイプと基準位置を引数とし、
         基準位置をもとに複数の弾を生成する
      */
-    public void generateBullet(int type, int x, int y) {
+    public void generateBullet(int type, int x, int y, int id) {
         Random rand = new Random();
         switch (type) {
             case 0:
-                bullets.add(new Bullet(x + 25, y, 10, 0, 3));
-                bullets.add(new Bullet(x - 25, y, -10, 0, 3));
-                bullets.add(new Bullet(x, y + 25, 0, 10, 3));
-                bullets.add(new Bullet(x, y - 25, 0, -10, 3));
+                bullets.add(new Bullet(x + 25, y, 10, 0, 3, id));
+                bullets.add(new Bullet(x - 25, y, -10, 0, 3, id));
+                bullets.add(new Bullet(x, y + 25, 0, 10, 3, id));
+                bullets.add(new Bullet(x, y - 25, 0, -10, 3, id));
                 break;
-            case 1:
-                bullets.add(new Bullet(x + 5, y + 25, 0, 20, 3));
-                bullets.add(new Bullet(x - 5, y + 25, 0, 20, 3));
-                bullets.add(new Bullet(x + 5, y - 25, 0, -20, 3));
-                bullets.add(new Bullet(x - 5, y - 25, 0, -20, 3));
-                break;
-            case 2:
-                double angle = Math.toRadians(rotateAngle);
-                double angle2 = angle + Math.PI / 3 * 2;
-                double angle3 = angle + Math.PI / 3 * 4;
-                rotateAngle += 10;
-                System.out.println(rotateAngle);
-                if (rotateAngle >= 360) {
-                    rotateAngle = 0;
-                }
-                bullets.add(new Bullet(x + (int) (Math.sin(angle) * 20), y + (int) (Math.cos(angle) * 20),
-                        (int) (Math.sin(angle) * 20), (int) (Math.cos(angle) * 20), 3));
-                bullets.add(new Bullet(x + (int) (Math.sin(angle2) * 20), y + (int) (Math.cos(angle2) * 20),
-                        (int) (Math.sin(angle2) * 20), (int) (Math.cos(angle2) * 20), 3));
-                bullets.add(new Bullet(x + (int) (Math.sin(angle3) * 20), y + (int) (Math.cos(angle3) * 20),
-                        (int) (Math.sin(angle3) * 20), (int) (Math.cos(angle3) * 20), 3));
-                break;
+            // case 1:
+            //     bullets.add(new Bullet(x + 5, y + 25, 0, 20, 3));
+            //     bullets.add(new Bullet(x - 5, y + 25, 0, 20, 3));
+            //     bullets.add(new Bullet(x + 5, y - 25, 0, -20, 3));
+            //     bullets.add(new Bullet(x - 5, y - 25, 0, -20, 3));
+            //     break;
+            // case 2:
+            //     double angle = Math.toRadians(rotateAngle);
+            //     double angle2 = angle + Math.PI / 3 * 2;
+            //     double angle3 = angle + Math.PI / 3 * 4;
+            //     rotateAngle += 10;
+            //     System.out.println(rotateAngle);
+            //     if (rotateAngle >= 360) {
+            //         rotateAngle = 0;
+            //     }
+            //     bullets.add(new Bullet(x + (int) (Math.sin(angle) * 20), y + (int) (Math.cos(angle) * 20),
+            //             (int) (Math.sin(angle) * 20), (int) (Math.cos(angle) * 20), 3));
+            //     bullets.add(new Bullet(x + (int) (Math.sin(angle2) * 20), y + (int) (Math.cos(angle2) * 20),
+            //             (int) (Math.sin(angle2) * 20), (int) (Math.cos(angle2) * 20), 3));
+            //     bullets.add(new Bullet(x + (int) (Math.sin(angle3) * 20), y + (int) (Math.cos(angle3) * 20),
+            //             (int) (Math.sin(angle3) * 20), (int) (Math.cos(angle3) * 20), 3));
+            //     break;
             default:
                 break;
         }
@@ -220,6 +220,10 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
                     if (myBallRims[j].collision(bullets.get(i).getX(), bullets.get(i).getY())) {
                         // ダメージ判定
                         myBallRims[j].damage();
+                        if(myBallRims[j].isDead()){
+                            myBallRims[bullets.get(i).getShooterID()].setScore(myBallRims[bullets.get(i).getShooterID()].getScore() + 1);
+                        }
+                        System.out.println(myBallRims[bullets.get(i).getShooterID()].getScore());
                     }
                 }
                 // 画面外に出たら削除

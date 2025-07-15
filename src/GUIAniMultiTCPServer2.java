@@ -172,12 +172,14 @@ class GUIAniMultiTCPServer2 {
                     System.out.println("type: " + sline[1]);
                     System.out.println("x: " + sline[2]);
                     System.out.println("y: " + sline[3]);
+                    System.out.println("ID: " + sline[4]);
 
                     int type = Integer.parseInt(sline[1]);
                     int x = Integer.parseInt(sline[2]);
                     int y = Integer.parseInt(sline[3]);
+                    int id = Integer.parseInt(sline[4]);
 
-                    animation.generateBullet(type, x, y);
+                    animation.generateBullet(type, x, y, id);
                 }
 
                 // Clientにメッセージ送信
