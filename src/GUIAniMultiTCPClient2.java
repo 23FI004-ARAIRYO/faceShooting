@@ -21,7 +21,8 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
     private int radius = 20;
     private int currentBulletType = 0;  // 現在の弾タイプ
     private final int MAX_BULLET_TYPE = 3; // タイプは0,1,2の3種類
-    private int clientId = -1;  // クライアントIDを保持
+    private int clientId = -1; // クライアントIDを保持
+    private String clientName = "";
 
     private String hostname = "localhost";
 
@@ -32,6 +33,10 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
     public GUIAniMultiTCPClient2() {
         super("Arrow Key Client");
 
+        this.clientName = javax.swing.JOptionPane.showInputDialog("名前を入力してください:");
+        if (clientName == null || clientName.isEmpty()) {
+            clientName = "NoName";
+        }
         this.setSize(300, 200);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.addKeyListener(this);
@@ -41,6 +46,9 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
         // クライアントIDをサーバーに登録
         clientId = registerClient();
         System.out.println("取得したクライアントID: " + clientId);
+
+        // 名前も一緒に送信
+        doClientAccess("face,name," + clientId + "," + clientName);
 
         // 初期位置を送信
         doClientAccess("face,place," + clientId + "," + faceX + "," + faceY);

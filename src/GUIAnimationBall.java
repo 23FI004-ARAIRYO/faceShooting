@@ -21,6 +21,7 @@ class GUIAnimationBall {
     int centerX;
     int centerY;
     int score;
+    String name = "";
     Color basicColor = Color.gray;
     Color initColor = Color.gray;
     public boolean damagedFlag = false;
@@ -34,6 +35,7 @@ class GUIAnimationBall {
     private int maxHP = 100;
     private int currentHP = 100;
     private boolean isDead = false;
+
     GUIAnimationBall(int w, int h) {
 
         rdn = new Random();
@@ -123,13 +125,14 @@ class GUIAnimationBall {
         this.radius = r;
     }
 
-    public int getRadius(){
+    public int getRadius() {
         return radius;
     }
 
-    public void damage(){
-        if (isDead) return; // 死亡済みなら何もしない
-
+    public void damage() {
+        if (isDead) {
+            return; // 死亡済みなら何もしない
+        }
         currentHP--;
         if (currentHP <= 0) {
             currentHP = 0;
@@ -142,28 +145,28 @@ class GUIAnimationBall {
         }
     }
 
-    public boolean isDamaged(){
+    public boolean isDamaged() {
         return damagedFlag;
     }
 
-    public boolean isDead(){
+    public boolean isDead() {
         return isDead;
     }
 
-    public void damageReset(){
+    public void damageReset() {
         basicColor = initColor;
     }
 
-    public boolean collision(int targetX, int targetY){
+    public boolean collision(int targetX, int targetY) {
         // 弾が当たっていてかつ自身が生きている
-        if(Math.sqrt((targetX - centerX) * (targetX - centerX) +
-                    (targetY - centerY) * (targetY - centerY)) <= radius && !isDead){
+        if (Math.sqrt((targetX - centerX) * (targetX - centerX)
+                + (targetY - centerY) * (targetY - centerY)) <= radius && !isDead) {
             return true;
         }
         return false;
     }
 
-    public double getDistance(double x, double y){
+    public double getDistance(double x, double y) {
         return Math.sqrt((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY));
     }
 
@@ -172,7 +175,7 @@ class GUIAnimationBall {
         //円の処理
         g.setColor(basicColor);
         g.fillOval(x, y, 2 * radius, 2 * radius); // rは半径なので2倍にする
-        g.drawString(basicLabelMessage, x - 5, y - 20); // 座標表示
+        g.drawString(name, x - 5, y - 20); // 座標表示
         g.drawString("Score: " + String.valueOf(score), x - 5, y - 10); // スコア表示
 
         if (strCounter > 0) {
@@ -193,7 +196,7 @@ class GUIAnimationBall {
         g.setColor(Color.red);
         g.fillRect(x, y + 2 * radius + 5, 2 * radius, 5); // 赤背景バー
         g.setColor(Color.green);
-        int hpWidth = (int)((double)currentHP / maxHP * 2 * radius);
+        int hpWidth = (int) ((double) currentHP / maxHP * 2 * radius);
         g.fillRect(x, y + 2 * radius + 5, hpWidth, 5); // 緑の残HP部分
 
         // 死亡時は強制的に "dead" を渡す（誤って他の感情が残っていても上書き）
@@ -205,17 +208,22 @@ class GUIAnimationBall {
     }
 
     public void resetHP() {
-            this.currentHP = this.maxHP;
-            this.isDead = false;
-            this.setEmotion("normal");
-            this.setBasicColor(initColor); // 元の色に戻す
+        this.currentHP = this.maxHP;
+        this.isDead = false;
+        this.setEmotion("normal");
+        this.setBasicColor(initColor); // 元の色に戻す
     }
 
-    public void setScore(int score){
+    public void setScore(int score) {
         this.score = score;
     }
 
-    public int getScore(){
+    public int getScore() {
         return score;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }// ball rim end

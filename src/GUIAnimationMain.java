@@ -27,7 +27,7 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
     private Timer timer;
     private int rotateAngle = 0;
 
-    private int INIT_BALLNUM = 5;
+    private int INIT_BALLNUM = 0;
     private GUIAnimationBall[] myBallRims = new GUIAnimationBall[INIT_BALLNUM];
     // private Bullet[] bullets = new Bullet[INIT_BULLETNUM];
     private static ArrayList<Bullet> bullets = new ArrayList<>();
@@ -113,6 +113,12 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
 
     }
 
+    public void setFaceName(int which, String name) {
+        if (which >= 0 && which < myBallRims.length) {
+            myBallRims[which].setName(name);
+        }
+    }
+
     /*
         弾の生成
         複数の弾の座標を引数や文字列でやりとりすると煩雑になるため、
@@ -138,10 +144,10 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
                 double angle = Math.toRadians(rotateAngle);
                 double angle2 = angle + Math.PI / 3 * 2;
                 double angle3 = angle + Math.PI / 3 * 4;
-                rotateAngle += 30;
+                rotateAngle += 35;
                 System.out.println(rotateAngle);
                 if (rotateAngle >= 360) {
-                    rotateAngle = 0;
+                    rotateAngle = -360;
                 }
                 bullets.add(new Bullet(x + (int) (Math.sin(angle) * 20), y + (int) (Math.cos(angle) * 20),
                         (int) (Math.sin(angle) * 20), (int) (Math.cos(angle) * 20), 3, id));
@@ -221,7 +227,7 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
                         // ダメージ判定
                         myBallRims[j].damage();
                         // キル判定（当たった弾の発射自機を参照）
-                        if(myBallRims[j].isDead()){
+                        if (myBallRims[j].isDead()) {
                             // スコアを+1
                             myBallRims[bullets.get(i).getShooterID()].setScore(myBallRims[bullets.get(i).getShooterID()].getScore() + 1);
                         }

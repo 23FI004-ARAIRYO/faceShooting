@@ -165,6 +165,12 @@ class GUIAniMultiTCPServer2 {
 
                     animation.setFaceEmotion(which, emotion);
 
+                } else if (line.startsWith("face,name") && animation != null) {
+                    String[] sline = line.split(",");
+                    int which = Integer.parseInt(sline[2]);
+                    String name = sline[3];
+
+                    animation.setFaceName(which, name);
                 } else // 先頭がbullet-->弾生成
                 if (line.startsWith("bullet") && animation != null) {
 
