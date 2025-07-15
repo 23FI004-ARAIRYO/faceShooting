@@ -33,7 +33,7 @@ class GUIAnimationBall {
     //HP
     private int maxHP = 100;
     private int currentHP = 100;
-    private boolean isDead = false; 
+    private boolean isDead = false;
     GUIAnimationBall(int w, int h) {
 
         rdn = new Random();
@@ -44,14 +44,13 @@ class GUIAnimationBall {
         this.radius = 20;
         this.score = 0;
 
-        setPosition(rdn.nextInt(300) + 240, rdn.nextInt(300) + 240);
+        setPosition(rdn.nextInt(w - 100) + 50, rdn.nextInt(h - 100) + 50);
         setRadius(radius);// 30-60のサイズの顔の輪郭
 
         this.basicColor = new Color(rdn.nextInt(256), rdn.nextInt(256), rdn.nextInt(256));
         this.initColor = basicColor;
 
         facelook = new GUIAnimatinFaceLook();
-
     }
 
     /* 感情をセット */
@@ -173,7 +172,8 @@ class GUIAnimationBall {
         //円の処理
         g.setColor(basicColor);
         g.fillOval(x, y, 2 * radius, 2 * radius); // rは半径なので2倍にする
-        g.drawString(basicLabelMessage, x - 5, y - 10);
+        g.drawString(basicLabelMessage, x - 5, y - 20); // 座標表示
+        g.drawString("Score: " + String.valueOf(score), x - 5, y - 10); // スコア表示
 
         if (strCounter > 0) {
             g.drawString(cstr, x, y);
