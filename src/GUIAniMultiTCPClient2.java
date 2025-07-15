@@ -96,22 +96,30 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
         switch (keyCode) {
             case KeyEvent.VK_LEFT:
                 faceX -= MOVE;
-                if(faceX < 0) faceX = 0;
+                if (faceX < 0) {
+                    faceX = 0;
+                }
                 sendPosition();
                 break;
             case KeyEvent.VK_RIGHT:
                 faceX += MOVE;
-                if(WINDOW_SIZE < faceX + (radius * 3)) faceX = WINDOW_SIZE - (radius * 3);
+                if (WINDOW_SIZE < faceX + (radius * 3)) {
+                    faceX = WINDOW_SIZE - (radius * 3);
+                }
                 sendPosition();
                 break;
             case KeyEvent.VK_UP:
                 faceY -= MOVE;
-                if(faceY < 0) faceY = 0;
+                if (faceY < 0) {
+                    faceY = 0;
+                }
                 sendPosition();
                 break;
             case KeyEvent.VK_DOWN:
                 faceY += MOVE;
-                if(WINDOW_SIZE < faceY + (radius * 4)) faceY = WINDOW_SIZE - (radius * 4);
+                if (WINDOW_SIZE < faceY + (radius * 4)) {
+                    faceY = WINDOW_SIZE - (radius * 4);
+                }
                 sendPosition();
                 break;
             case KeyEvent.VK_Z:
@@ -120,22 +128,28 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
             case KeyEvent.VK_X:
                 currentBulletType = (currentBulletType + 1) % MAX_BULLET_TYPE;
                 System.out.println("弾タイプ切替: " + currentBulletType);
-            // 弾タイプに応じて表情切り替え
+                // 弾タイプに応じて表情切り替え
                 String emotion = "normal"; // デフォルト
-            switch (currentBulletType) {
-            case 0: emotion = "normal"; break;
-            case 1: emotion = "smile"; break;
-            case 2: emotion = "angry"; break; 
-            }
-            // サーバーに emotion を送信
-            doClientAccess("face,emotion," + clientId + "," + emotion);
+                switch (currentBulletType) {
+                    case 0:
+                        emotion = "normal";
+                        break;
+                    case 1:
+                        emotion = "smile";
+                        break;
+                    case 2:
+                        emotion = "angry";
+                        break;
+                }
+                // サーバーに emotion を送信
+                doClientAccess("face,emotion," + clientId + "," + emotion);
                 break;
             default:
                 return;
         }
 
         // 顔の位置を送信
-        String message = "face,place,0," + faceX + "," + faceY;
+        String message = "face,place," + clientId + "," + faceX + "," + faceY;
         doClientAccess(message);
     }
 
@@ -194,4 +208,4 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
     @Override
     public void keyTyped(KeyEvent e) {
     }
-}
+}// class MultiClient end

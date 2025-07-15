@@ -27,7 +27,7 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
     private Timer timer;
     private int rotateAngle = 0;
 
-    private int INIT_BALLNUM = 3;
+    private int INIT_BALLNUM = 0;
     private GUIAnimationBall[] myBallRims = new GUIAnimationBall[INIT_BALLNUM];
     // private Bullet[] bullets = new Bullet[INIT_BULLETNUM];
     private static ArrayList<Bullet> bullets = new ArrayList<>();
@@ -245,4 +245,4 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
     }// paintProcess end
 
     // 顔の輪郭
-}// GUI Animation End
+}// GUI AnimationMain End
