@@ -7,8 +7,7 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -31,6 +30,7 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
     private GUIAnimationBall[] myBallRims = new GUIAnimationBall[INIT_BALLNUM];
     // private Bullet[] bullets = new Bullet[INIT_BULLETNUM];
     private static ArrayList<Bullet> bullets = new ArrayList<>();
+    private static ArrayList<Item> items = new ArrayList<>();
 
     public static void main(String[] args) {// main 関数
         /* Frame関係調整：開始 */
@@ -45,6 +45,17 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
         frame.setVisible(true);
         /* Frame関係調整終了：終了 */
 
+        // 定期実行処理
+        java.util.Timer timer = new java.util.Timer();
+        TimerTask timerTask = new TimerTask() {
+            public void run(){
+                // アイテム生成
+                generateItem();
+            }
+        };
+        // タスク / 最初の実行までの時間 / 実行間隔
+        timer.schedule(timerTask, 1000, 5000);
+
         /**
          * ********************
          */
@@ -53,7 +64,6 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
          * ********************
          */
         new GUIAniMultiTCPServer2(animation);
-
     }// main end
 
     ActionListener updateProBar;
@@ -129,16 +139,16 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
         Random rand = new Random();
         switch (type) {
             case 0:
-                bullets.add(new Bullet(x + 25, y, 10, 0, 3, id));
-                bullets.add(new Bullet(x - 25, y, -10, 0, 3, id));
-                bullets.add(new Bullet(x, y + 25, 0, 10, 3, id));
-                bullets.add(new Bullet(x, y - 25, 0, -10, 3, id));
+                bullets.add(new Bullet(x + 25, y, myBallRims[id].getVXOfBullet(), 0, myBallRims[id].getRadiusOfBullet(), id));
+                bullets.add(new Bullet(x - 25, y, -myBallRims[id].getVXOfBullet(), 0, myBallRims[id].getRadiusOfBullet(), id));
+                bullets.add(new Bullet(x, y + 25, 0, myBallRims[id].getVYOfBullet(), myBallRims[id].getRadiusOfBullet(), id));
+                bullets.add(new Bullet(x, y - 25, 0, -myBallRims[id].getVYOfBullet(), myBallRims[id].getRadiusOfBullet(), id));
                 break;
             case 1:
-                bullets.add(new Bullet(x + 5, y + 25, 0, 20, 3, id));
-                bullets.add(new Bullet(x - 5, y + 25, 0, 20, 3, id));
-                bullets.add(new Bullet(x + 5, y - 25, 0, -20, 3, id));
-                bullets.add(new Bullet(x - 5, y - 25, 0, -20, 3, id));
+                bullets.add(new Bullet(x + 5, y + 25, 0, myBallRims[id].getVYOfBullet() * 2, myBallRims[id].getRadiusOfBullet(), id));
+                bullets.add(new Bullet(x - 5, y + 25, 0, myBallRims[id].getVYOfBullet() * 2, myBallRims[id].getRadiusOfBullet(), id));
+                bullets.add(new Bullet(x + 5, y - 25, 0, -myBallRims[id].getVYOfBullet() * 2, myBallRims[id].getRadiusOfBullet(), id));
+                bullets.add(new Bullet(x - 5, y - 25, 0, -myBallRims[id].getVYOfBullet() * 2, myBallRims[id].getRadiusOfBullet(), id));
                 break;
             case 2:
                 double angle = Math.toRadians(rotateAngle);
@@ -149,16 +159,34 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
                 if (rotateAngle >= 360) {
                     rotateAngle = -360;
                 }
-                bullets.add(new Bullet(x + (int) (Math.sin(angle) * 20), y + (int) (Math.cos(angle) * 20),
-                        (int) (Math.sin(angle) * 20), (int) (Math.cos(angle) * 20), 3, id));
-                bullets.add(new Bullet(x + (int) (Math.sin(angle2) * 20), y + (int) (Math.cos(angle2) * 20),
-                        (int) (Math.sin(angle2) * 20), (int) (Math.cos(angle2) * 20), 3, id));
-                bullets.add(new Bullet(x + (int) (Math.sin(angle3) * 20), y + (int) (Math.cos(angle3) * 20),
-                        (int) (Math.sin(angle3) * 20), (int) (Math.cos(angle3) * 20), 3, id));
+                bullets.add(new Bullet(x + (int) (Math.sin(angle) * 20),
+                                    y + (int) (Math.cos(angle) * 20),
+                                    (int) (Math.sin(angle) * myBallRims[id].getVXOfBullet() * 2),
+                                    (int) (Math.cos(angle) * myBallRims[id].getVYOfBullet() * 2),
+                                    myBallRims[id].getRadiusOfBullet(), id));
+                bullets.add(new Bullet(x + (int) (Math.sin(angle2) * 20),
+                                    y + (int) (Math.cos(angle2) * 20),
+                                    (int) (Math.sin(angle2) * myBallRims[id].getVXOfBullet() * 2),
+                                    (int) (Math.cos(angle2) * myBallRims[id].getVYOfBullet() * 2),
+                                    myBallRims[id].getRadiusOfBullet(), id));
+                bullets.add(new Bullet(x + (int) (Math.sin(angle3) * 20),
+                                    y + (int) (Math.cos(angle3) * 20),
+                                    (int) (Math.sin(angle3) * myBallRims[id].getVXOfBullet() * 2),
+                                    (int) (Math.cos(angle3) * myBallRims[id].getVYOfBullet() * 2),
+                                    myBallRims[id].getRadiusOfBullet(), id));
                 break;
             default:
                 break;
         }
+    }
+
+    public static void generateItem(){
+        Random rand = new Random();
+        items.add(new Item(rand.nextInt(WINDOW_SIZE), rand.nextInt(WINDOW_SIZE), 10, rand.nextInt(Item.ITEM_VARIATION)));
+    }
+
+    public void reviveClient(int id){
+        myBallRims[id].revive();
     }
 
     // 初期化処理
@@ -223,7 +251,7 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
                 bullets.get(i).move();
                 // 弾の衝突判定
                 for (int j = 0; j < myBallRims.length; j++) {
-                    if (myBallRims[j].collision(bullets.get(i).getX(), bullets.get(i).getY())) {
+                    if (myBallRims[j].collision(bullets.get(i).getX(), bullets.get(i).getY(), bullets.get(i).getRadius())) {
                         // ダメージ判定
                         myBallRims[j].damage();
                         // キル判定（当たった弾の発射自機を参照）
@@ -237,6 +265,32 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
                 // 画面外に出たら削除
                 if (bullets.get(i).isOutOfWindow()) {
                     bullets.remove(i);
+                }
+            }
+            // アイテムの処理
+            for (int i = 0; i < items.size(); i++) {
+                items.get(i).move();
+                for (int j = 0; j < myBallRims.length; j++) {
+                    if (myBallRims[j].collision(items.get(i).getX(), items.get(i).getY(), items.get(i).getRadius())) {
+                        // 獲得判定
+                        System.out.println("get item");
+                        switch (items.get(i).getItemType()) {
+                            case Item.BIGGER_BULLET:
+                                myBallRims[j].setRadiusOfBullet(myBallRims[j].getRadiusOfBullet() + 2);
+                                break;
+                            case Item.SPEED_UP:
+                                myBallRims[j].setVXOfBullet(myBallRims[j].getVXOfBullet() + 3);
+                                myBallRims[j].setVYOfBullet(myBallRims[j].getVYOfBullet() + 3);
+                                break;
+                            default:
+                                break;
+                        }
+                        items.remove(i);
+                    }
+                }
+                // 一定時間経過削除
+                if (items.get(i).isTimeOut()) {
+                    items.remove(i);
                 }
             }
             ellipse.setFrame(ellipse.getX(), ellipse.getY(), counter, counter);
@@ -253,6 +307,9 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
         }
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).draw(g2);
+        }
+        for (int i = 0; i < items.size(); i++) {
+            items.get(i).draw(g2);
         }
     }// paintProcess end
 

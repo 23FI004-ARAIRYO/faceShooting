@@ -186,6 +186,11 @@ class GUIAniMultiTCPServer2 {
                     int id = Integer.parseInt(sline[4]);
 
                     animation.generateBullet(type, x, y, id);
+                } else // 先頭がbullet-->弾生成
+                if (line.startsWith("revive") && animation != null) {
+                    String[] sline = line.split(",");
+                    int id = Integer.parseInt(sline[1]);
+                    animation.reviveClient(id);
                 }
 
                 // Clientにメッセージ送信

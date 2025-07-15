@@ -18,6 +18,9 @@ class GUIAnimationBall {
     int x;
     int y;
     int radius; // 半径
+    int radiusOfBullet;
+    int vXOfBullet;
+    int vYOfBullet;
     int centerX;
     int centerY;
     int score;
@@ -44,6 +47,9 @@ class GUIAnimationBall {
         this.w = w;
         this.h = h;
         this.radius = 20;
+        this.radiusOfBullet = 2;
+        this.vXOfBullet = 10;
+        this.vYOfBullet = 10;
         this.score = 0;
 
         setPosition(rdn.nextInt(w - 100) + 50, rdn.nextInt(h - 100) + 50);
@@ -129,6 +135,39 @@ class GUIAnimationBall {
         return radius;
     }
 
+    void setRadiusOfBullet(int r) {
+        this.radiusOfBullet = r;
+        if (r > 10) {
+            r = 10;
+        }
+    }
+
+    public int getRadiusOfBullet() {
+        return radiusOfBullet;
+    }
+
+    public void setVXOfBullet(int vx){
+        this.vXOfBullet = vx;
+        if(vXOfBullet > 30){
+            vXOfBullet = 30;
+        }
+    }
+
+    public int getVXOfBullet(){
+        return vXOfBullet;
+    }
+
+    public void setVYOfBullet(int vy){
+        this.vYOfBullet = vy;
+        if(vYOfBullet > 30){
+            vYOfBullet = 30;
+        }
+    }
+
+    public int getVYOfBullet(){
+        return vYOfBullet;
+    }
+
     public void damage() {
         if (isDead) {
             return; // 死亡済みなら何もしない
@@ -145,6 +184,11 @@ class GUIAnimationBall {
         }
     }
 
+    public void revive(){
+        currentHP = 100;
+        isDead = false;
+    }
+
     public boolean isDamaged() {
         return damagedFlag;
     }
@@ -157,10 +201,10 @@ class GUIAnimationBall {
         basicColor = initColor;
     }
 
-    public boolean collision(int targetX, int targetY) {
+    public boolean collision(int targetX, int targetY, int targetRadius) {
         // 弾が当たっていてかつ自身が生きている
         if (Math.sqrt((targetX - centerX) * (targetX - centerX)
-                + (targetY - centerY) * (targetY - centerY)) <= radius && !isDead) {
+                + (targetY - centerY) * (targetY - centerY)) <= radius + targetRadius && !isDead) {
             return true;
         }
         return false;

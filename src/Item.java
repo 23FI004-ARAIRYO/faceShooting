@@ -1,30 +1,47 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Bullet {
+public class Item {
+    public static final int BIGGER_BULLET = 0;
+    public static final int SPEED_UP = 1;
+    public static final int ITEM_VARIATION = 2;
+
     private int x;
     private int y;
     private int vx;
     private int vy;
     private int radius;
-    private Color color = Color.red;
-    private int shooterID;
+    private int itemType;
+    private int remainTime;
+    private Color color = Color.BLUE;
 
     int w = 777;
     int h = 777;
 
-    public Bullet(int x, int y, int vx, int vy, int radius, int shooterID){
+    public Item(int x, int y, int radius, int itemType){
         this.x = x;
         this.y = y;
-        this.vx = vx;
-        this.vy = vy;
+        this.vx = 0;
+        this.vy = 0;
         this.radius = radius;
-        this.shooterID = shooterID;
+        this.remainTime = 1000;
+        this.itemType = itemType;
+        switch (itemType) {
+            case BIGGER_BULLET:
+                setColor(Color.BLUE);
+                break;
+            case SPEED_UP:
+                setColor(Color.RED);
+                break;
+            default:
+                break;
+        }
     }
 
     public void move(){
         x += vx;
         y += vy;
+        remainTime--;
     }
 
     public void setColor(Color color){
@@ -45,6 +62,11 @@ public class Bullet {
         if(x < 0 || w < x || y < 0 || h < y){
             return true;
         }
+        return false;
+    }
+
+    public boolean isTimeOut(){
+        if(remainTime < 0) return true;
         return false;
     }
 
@@ -72,13 +94,13 @@ public class Bullet {
     public int getVy(){
         return vy;
     }
-    public void setRadius(int radius){
+    public void setRadis(int radius){
         this.radius = radius;
     }
     public int getRadius(){
         return radius;
     }
-    public int getShooterID(){
-        return shooterID;
+    public int getItemType(){
+        return itemType;
     }
-}// bullet end
+}// Item end
