@@ -184,9 +184,9 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
                 doClientAccess("remove," + clientId);
                 System.exit(0);
                 break;
-            case KeyEvent.VK_C:
-                doClientAccess("revive," + clientId);
-                break;
+            // case KeyEvent.VK_C:
+            //     doClientAccess("revive," + clientId);
+            //     break;
             default:
                 return;
         }

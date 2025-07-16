@@ -289,6 +289,9 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
                             case Item.HEAL_HP:
                                 myBallRims[j].revive();
                                 break;
+                            case Item.BOMB:
+                                myBallRims[j].getBomb();
+                                break;
                             default:
                                 break;
                         }

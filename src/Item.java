@@ -7,7 +7,8 @@ public class Item {
     public static final int BIGGER_BULLET = 0;
     public static final int SPEED_UP = 1;
     public static final int HEAL_HP = 2;
-    public static final int ITEM_VARIATION = 3;
+    public static final int BOMB = 3;
+    public static final int ITEM_VARIATION = 4;
 
     private int x;
     private int y;
@@ -31,13 +32,16 @@ public class Item {
         this.itemType = itemType;
         switch (itemType) {
             case BIGGER_BULLET:
-                setColor(Color.BLUE);
+                setColor(Color.RED);
                 break;
             case SPEED_UP:
-                setColor(Color.RED);
+                setColor(Color.BLUE);
                 break;
             case HEAL_HP:
                 setColor(Color.GREEN);
+                break;
+            case BOMB:
+                setColor(Color.BLACK);
                 break;
             default:
                 break;
@@ -62,6 +66,23 @@ public class Item {
     public void draw(Graphics g) {
         g.setColor(color);
         g.fillOval(x, y, radius * 2, radius * 2);
+        g.setColor(Color.WHITE);
+        switch (itemType) {
+            case BIGGER_BULLET:
+                g.drawString("+", x + radius - 3, y + radius + 4); // 中心にマーク描画
+                break;
+            case SPEED_UP:
+                g.drawString("⇒", x + radius - 6, y + radius + 4);
+                break;
+            case HEAL_HP:
+                g.drawString("💗", x + radius - 6, y + radius + 4);
+                break;
+            case BOMB:
+                g.drawString("💀", x + radius - 6, y + radius + 4);
+                break;
+            default:
+                break;
+        }
     }
 
     public boolean isOutOfWindow() {

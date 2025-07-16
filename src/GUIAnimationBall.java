@@ -190,6 +190,15 @@ class GUIAnimationBall {
         isDead = false;
     }
 
+    public void getBomb() {
+        if (currentHP > 10) {
+            currentHP -= 10;
+        } else {
+            currentHP = 0;
+            isDead = true;
+        }
+    }
+
     public boolean isDamaged() {
         return damagedFlag;
     }
