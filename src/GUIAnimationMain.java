@@ -312,6 +312,12 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
             items.get(i).draw(g2);
         }
     }// paintProcess end
+        public boolean isDead(int id) {
+    if (id >= 0 && id < myBallRims.length) {
+        return myBallRims[id].isDead();
+    }
+    return true; // 範囲外は強制dead
+}
 
     // 顔の輪郭
 }// GUI AnimationMain End

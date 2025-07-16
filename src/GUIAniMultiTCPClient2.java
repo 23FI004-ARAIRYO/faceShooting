@@ -52,6 +52,32 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
 
         // 初期位置を送信
         doClientAccess("face,place," + clientId + "," + faceX + "," + faceY);
+
+        // HPチェックの定期スレッド（ゲームオーバー検出）
+new Thread(() -> {
+    while (true) {
+        try {
+            Thread.sleep(500);
+            String result = doQueryAccess("check," + clientId);
+            if ("dead".equals(result)) {
+                int option = javax.swing.JOptionPane.showConfirmDialog(null,
+                        "ゲームオーバー！もう一度遊びますか？",
+                        "Game Over",
+                        javax.swing.JOptionPane.YES_NO_OPTION);
+                if (option == javax.swing.JOptionPane.YES_OPTION) {
+                    doClientAccess("revive," + clientId);
+                    doClientAccess("face,emotion,"+clientId+",normal");
+                } else {
+                    doClientAccess("remove," + clientId);
+                    System.exit(0);
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}).start();
+
     }
 
     private int registerClient() {
@@ -214,6 +240,29 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
             e.printStackTrace();
         }
     }
+    // サーバーへクエリを送って結果だけを返す（例："check"など）
+public String doQueryAccess(String msg) {
+    try {
+        Socket socket = new Socket();
+        socket.connect(new InetSocketAddress(hostname, 6000), 10000);
+
+        PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+        BufferedReader rd = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+        writer.println(msg);
+
+        String response = rd.readLine();
+
+        rd.close();
+        writer.close();
+        socket.close();
+
+        return response;
+    } catch (IOException e) {
+        e.printStackTrace();
+        return null;
+    }
+}
 
     // 不要なメソッドも必要（空でOK）
     @Override

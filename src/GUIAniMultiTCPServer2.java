@@ -191,7 +191,17 @@ class GUIAniMultiTCPServer2 {
                     String[] sline = line.split(",");
                     int id = Integer.parseInt(sline[1]);
                     animation.reviveClient(id);
+                }else if (line.startsWith("check") && animation != null) {
+                String[] sline = line.split(",");
+                int id = Integer.parseInt(sline[1]);
+                if (animation.isDead(id)) {
+                sendout.println("dead");
+                } else {
+                sendout.println("alive");
                 }
+                return;
+                }
+
 
                 // Clientにメッセージ送信
                 sendout.println("Message is received at Server. message:[" + line + "]");
