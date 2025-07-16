@@ -35,8 +35,8 @@ class GUIAnimationBall {
 
     private String basicLabelMessage = "(空白:未受信)";
     //HP
-    private int maxHP = 100;
-    private int currentHP = 100;
+    private int maxHP = 50;
+    private int currentHP = 50;
     private boolean isDead = false;
 
     GUIAnimationBall(int w, int h) {
@@ -146,25 +146,25 @@ class GUIAnimationBall {
         return radiusOfBullet;
     }
 
-    public void setVXOfBullet(int vx){
+    public void setVXOfBullet(int vx) {
         this.vXOfBullet = vx;
-        if(vXOfBullet > 30){
+        if (vXOfBullet > 30) {
             vXOfBullet = 30;
         }
     }
 
-    public int getVXOfBullet(){
+    public int getVXOfBullet() {
         return vXOfBullet;
     }
 
-    public void setVYOfBullet(int vy){
+    public void setVYOfBullet(int vy) {
         this.vYOfBullet = vy;
-        if(vYOfBullet > 30){
+        if (vYOfBullet > 30) {
             vYOfBullet = 30;
         }
     }
 
-    public int getVYOfBullet(){
+    public int getVYOfBullet() {
         return vYOfBullet;
     }
 
@@ -184,7 +184,7 @@ class GUIAnimationBall {
         }
     }
 
-    public void revive(){
+    public void revive() {
         currentHP = 100;
         isDead = false;
     }

@@ -7,7 +7,11 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.TimerTask;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -40,7 +44,7 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
         JFrame frame = new JFrame("GUIAnimationFaceObjMain");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(animation);
-        frame.setSize(WINDOW_SIZE, WINDOW_SIZE);
+        frame.setSize(WINDOW_SIZE + 200, WINDOW_SIZE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         /* Frame関係調整終了：終了 */
@@ -48,7 +52,7 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
         // 定期実行処理
         java.util.Timer timer = new java.util.Timer();
         TimerTask timerTask = new TimerTask() {
-            public void run(){
+            public void run() {
                 // アイテム生成
                 generateItem();
             }
@@ -160,32 +164,32 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
                     rotateAngle = -360;
                 }
                 bullets.add(new Bullet(x + (int) (Math.sin(angle) * 20),
-                                    y + (int) (Math.cos(angle) * 20),
-                                    (int) (Math.sin(angle) * myBallRims[id].getVXOfBullet() * 2),
-                                    (int) (Math.cos(angle) * myBallRims[id].getVYOfBullet() * 2),
-                                    myBallRims[id].getRadiusOfBullet(), id));
+                        y + (int) (Math.cos(angle) * 20),
+                        (int) (Math.sin(angle) * myBallRims[id].getVXOfBullet() * 2),
+                        (int) (Math.cos(angle) * myBallRims[id].getVYOfBullet() * 2),
+                        myBallRims[id].getRadiusOfBullet(), id));
                 bullets.add(new Bullet(x + (int) (Math.sin(angle2) * 20),
-                                    y + (int) (Math.cos(angle2) * 20),
-                                    (int) (Math.sin(angle2) * myBallRims[id].getVXOfBullet() * 2),
-                                    (int) (Math.cos(angle2) * myBallRims[id].getVYOfBullet() * 2),
-                                    myBallRims[id].getRadiusOfBullet(), id));
+                        y + (int) (Math.cos(angle2) * 20),
+                        (int) (Math.sin(angle2) * myBallRims[id].getVXOfBullet() * 2),
+                        (int) (Math.cos(angle2) * myBallRims[id].getVYOfBullet() * 2),
+                        myBallRims[id].getRadiusOfBullet(), id));
                 bullets.add(new Bullet(x + (int) (Math.sin(angle3) * 20),
-                                    y + (int) (Math.cos(angle3) * 20),
-                                    (int) (Math.sin(angle3) * myBallRims[id].getVXOfBullet() * 2),
-                                    (int) (Math.cos(angle3) * myBallRims[id].getVYOfBullet() * 2),
-                                    myBallRims[id].getRadiusOfBullet(), id));
+                        y + (int) (Math.cos(angle3) * 20),
+                        (int) (Math.sin(angle3) * myBallRims[id].getVXOfBullet() * 2),
+                        (int) (Math.cos(angle3) * myBallRims[id].getVYOfBullet() * 2),
+                        myBallRims[id].getRadiusOfBullet(), id));
                 break;
             default:
                 break;
         }
     }
 
-    public static void generateItem(){
+    public static void generateItem() {
         Random rand = new Random();
         items.add(new Item(rand.nextInt(WINDOW_SIZE), rand.nextInt(WINDOW_SIZE), 10, rand.nextInt(Item.ITEM_VARIATION)));
     }
 
-    public void reviveClient(int id){
+    public void reviveClient(int id) {
         myBallRims[id].revive();
     }
 
@@ -282,6 +286,9 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
                                 myBallRims[j].setVXOfBullet(myBallRims[j].getVXOfBullet() + 3);
                                 myBallRims[j].setVYOfBullet(myBallRims[j].getVYOfBullet() + 3);
                                 break;
+                            case Item.HEAL_HP:
+                                myBallRims[j].revive();
+                                break;
                             default:
                                 break;
                         }
@@ -311,31 +318,33 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
         for (int i = 0; i < items.size(); i++) {
             items.get(i).draw(g2);
         }
-         // ここにランキング描画を追加
+        // ここにランキング描画を追加
         drawRanking(g2, w);
     }// paintProcess end
-        public boolean isDead(int id) {
-    if (id >= 0 && id < myBallRims.length) {
-        return myBallRims[id].isDead();
+
+    public boolean isDead(int id) {
+        if (id >= 0 && id < myBallRims.length) {
+            return myBallRims[id].isDead();
+        }
+        return true; // 範囲外は強制dead
     }
-    return true; // 範囲外は強制dead
-}
-private void drawRanking(Graphics2D g2, int w) {
-    g2.setColor(new Color(0, 0, 0, 180)); // 半透明黒背景
-    g2.fillRect(w - 160, 20, 140, 20 + myBallRims.length * 20);
 
-    g2.setColor(Color.white);
-    g2.drawString("=== RANKING ===", w - 150, 35);
+    private void drawRanking(Graphics2D g2, int w) {
+        g2.setColor(new Color(0, 0, 0, 240)); // 半透明黒背景
+        g2.fillRect(w - 160, 20, 140, 20 + myBallRims.length * 20);
 
-    // スコア順にソート
-    List<GUIAnimationBall> sortedList = new ArrayList<>(Arrays.asList(myBallRims));
-    sortedList.sort((a, b) -> Integer.compare(b.getScore(), a.getScore()));
+        g2.setColor(Color.white);
+        g2.drawString("=== RANKING ===", w - 150, 35);
 
-    for (int i = 0; i < sortedList.size(); i++) {
-        GUIAnimationBall ball = sortedList.get(i);
-        String name = ball.name;
-        int score = ball.getScore();
-        g2.drawString((i + 1) + ". " + name + ": " + score, w - 150, 55 + i * 20);
+        // スコア順にソート
+        List<GUIAnimationBall> sortedList = new ArrayList<>(Arrays.asList(myBallRims));
+        sortedList.sort((a, b) -> Integer.compare(b.getScore(), a.getScore()));
+
+        for (int i = 0; i < sortedList.size(); i++) {
+            GUIAnimationBall ball = sortedList.get(i);
+            String name = ball.name;
+            int score = ball.getScore();
+            g2.drawString((i + 1) + ". " + name + ": " + score, w - 150, 55 + i * 20);
         }
     }
 
