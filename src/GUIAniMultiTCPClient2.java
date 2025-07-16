@@ -14,8 +14,8 @@ import javax.swing.JFrame;
 
 public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, WindowListener {
 
-    private int faceX = 100;
-    private int faceY = 100;
+    private int faceX = (int) (Math.random() * 700 + 30);
+    private int faceY = (int) (Math.random() * 700 + 30);
     private final int MOVE = 10; // 移動量
     final static int WINDOW_SIZE = 777;
     private int radius = 20;
@@ -54,29 +54,29 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
         doClientAccess("face,place," + clientId + "," + faceX + "," + faceY);
 
         // HPチェックの定期スレッド（ゲームオーバー検出）
-new Thread(() -> {
-    while (true) {
-        try {
-            Thread.sleep(500);
-            String result = doQueryAccess("check," + clientId);
-            if ("dead".equals(result)) {
-                int option = javax.swing.JOptionPane.showConfirmDialog(null,
-                        "ゲームオーバー！もう一度遊びますか？",
-                        "Game Over",
-                        javax.swing.JOptionPane.YES_NO_OPTION);
-                if (option == javax.swing.JOptionPane.YES_OPTION) {
-                    doClientAccess("revive," + clientId);
-                    doClientAccess("face,emotion,"+clientId+",normal");
-                } else {
-                    doClientAccess("remove," + clientId);
-                    System.exit(0);
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(500);
+                    String result = doQueryAccess("check," + clientId);
+                    if ("dead".equals(result)) {
+                        int option = javax.swing.JOptionPane.showConfirmDialog(null,
+                                "ゲームオーバー！もう一度遊びますか？",
+                                "Game Over",
+                                javax.swing.JOptionPane.YES_NO_OPTION);
+                        if (option == javax.swing.JOptionPane.YES_OPTION) {
+                            doClientAccess("revive," + clientId);
+                            doClientAccess("face,emotion," + clientId + ",normal");
+                        } else {
+                            doClientAccess("remove," + clientId);
+                            System.exit(0);
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-}).start();
+        }).start();
 
     }
 
@@ -241,28 +241,29 @@ new Thread(() -> {
         }
     }
     // サーバーへクエリを送って結果だけを返す（例："check"など）
-public String doQueryAccess(String msg) {
-    try {
-        Socket socket = new Socket();
-        socket.connect(new InetSocketAddress(hostname, 6000), 10000);
 
-        PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
-        BufferedReader rd = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    public String doQueryAccess(String msg) {
+        try {
+            Socket socket = new Socket();
+            socket.connect(new InetSocketAddress(hostname, 6000), 10000);
 
-        writer.println(msg);
+            PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+            BufferedReader rd = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        String response = rd.readLine();
+            writer.println(msg);
 
-        rd.close();
-        writer.close();
-        socket.close();
+            String response = rd.readLine();
 
-        return response;
-    } catch (IOException e) {
-        e.printStackTrace();
-        return null;
+            rd.close();
+            writer.close();
+            socket.close();
+
+            return response;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
-}
 
     // 不要なメソッドも必要（空でOK）
     @Override
