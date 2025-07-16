@@ -175,6 +175,7 @@ class GUIAnimationBall {
         currentHP--;
         if (currentHP <= 0) {
             currentHP = 0;
+            score = 0;
             isDead = true;
             setEmotion("dead"); // 表情を「死」に変える
             setBasicColor(Color.darkGray); // 色も変える（任意）
