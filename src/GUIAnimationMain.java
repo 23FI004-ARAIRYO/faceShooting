@@ -311,6 +311,8 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
         for (int i = 0; i < items.size(); i++) {
             items.get(i).draw(g2);
         }
+         // ここにランキング描画を追加
+        drawRanking(g2, w);
     }// paintProcess end
         public boolean isDead(int id) {
     if (id >= 0 && id < myBallRims.length) {
@@ -318,6 +320,24 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
     }
     return true; // 範囲外は強制dead
 }
+private void drawRanking(Graphics2D g2, int w) {
+    g2.setColor(new Color(0, 0, 0, 180)); // 半透明黒背景
+    g2.fillRect(w - 160, 20, 140, 20 + myBallRims.length * 20);
+
+    g2.setColor(Color.white);
+    g2.drawString("=== RANKING ===", w - 150, 35);
+
+    // スコア順にソート
+    List<GUIAnimationBall> sortedList = new ArrayList<>(Arrays.asList(myBallRims));
+    sortedList.sort((a, b) -> Integer.compare(b.getScore(), a.getScore()));
+
+    for (int i = 0; i < sortedList.size(); i++) {
+        GUIAnimationBall ball = sortedList.get(i);
+        String name = ball.name;
+        int score = ball.getScore();
+        g2.drawString((i + 1) + ". " + name + ": " + score, w - 150, 55 + i * 20);
+        }
+    }
 
     // 顔の輪郭
 }// GUI AnimationMain End
