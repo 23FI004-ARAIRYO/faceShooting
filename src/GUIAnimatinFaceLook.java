@@ -71,31 +71,30 @@ class GUIAnimatinFaceLook {// 顔のオブジェクト
     }
 
     void makeEyes(Graphics g, int eyeSize, String emotion) {
-    // ① 目のエリアを背景色で塗りつぶしてクリア
-    // ② 以降は今まで通り描画
-    if ("dead".equals(emotion)) {
-    g.setColor(Color.black);
-    int lx = xStart + (h * 2 / 7);
-    int ly = yStart + (w * 1 / 3);
-    g.drawLine(lx, ly, lx + eyeSize, ly + eyeSize);
-    g.drawLine(lx + eyeSize, ly, lx, ly + eyeSize);
+        // ① 目のエリアを背景色で塗りつぶしてクリア
+        // ② 以降は今まで通り描画
+        if ("dead".equals(emotion)) {
+            g.setColor(Color.black);
+            int lx = xStart + (h * 2 / 7);
+            int ly = yStart + (w * 1 / 3);
+            g.drawLine(lx, ly, lx + eyeSize, ly + eyeSize);
+            g.drawLine(lx + eyeSize, ly, lx, ly + eyeSize);
 
-    int rx = xStart + (h * 4 / 7);
-    int ry = ly;
-    g.drawLine(rx, ry, rx + eyeSize, ry + eyeSize);
-    g.drawLine(rx + eyeSize, ry, rx, ry + eyeSize);
-    return; // ← ここで return して目を通常描画しない
-} else{
-    g.setColor(Color.blue);
-    g.fillArc(xStart + (h * 2 / 7), yStart + (w * 1 / 3), eyeSize, eyeSize, 0, 300);
-    g.setColor(Color.black);
-    g.drawOval(xStart + (h * 2 / 7), yStart + (w * 1 / 3), eyeSize, eyeSize);
-    g.drawOval(xStart + (h * 4 / 7), yStart + (w * 1 / 3), eyeSize, eyeSize);
+            int rx = xStart + (h * 4 / 7);
+            int ry = ly;
+            g.drawLine(rx, ry, rx + eyeSize, ry + eyeSize);
+            g.drawLine(rx + eyeSize, ry, rx, ry + eyeSize);
+            return; // ← ここで return して目を通常描画しない
+        } else {
+            g.setColor(Color.blue);
+            g.fillArc(xStart + (h * 2 / 7), yStart + (w * 1 / 3), eyeSize, eyeSize, 0, 300);
+            g.setColor(Color.black);
+            g.drawOval(xStart + (h * 2 / 7), yStart + (w * 1 / 3), eyeSize, eyeSize);
+            g.drawOval(xStart + (h * 4 / 7), yStart + (w * 1 / 3), eyeSize, eyeSize);
 
-}
+        }
 
-}
-
+    }
 
     public void makeNose(Graphics g, int noseSize) {
         g.drawLine(xStart + (h * 1 / 2), yStart + (w * 2 / 4), xStart

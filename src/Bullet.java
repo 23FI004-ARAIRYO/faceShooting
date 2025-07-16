@@ -1,7 +1,9 @@
+
 import java.awt.Color;
 import java.awt.Graphics;
 
 public class Bullet {
+
     private int x;
     private int y;
     private int vx;
@@ -13,7 +15,7 @@ public class Bullet {
     int w = 777;
     int h = 777;
 
-    public Bullet(int x, int y, int vx, int vy, int radius, int shooterID){
+    public Bullet(int x, int y, int vx, int vy, int radius, int shooterID) {
         this.x = x;
         this.y = y;
         this.vx = vx;
@@ -22,63 +24,73 @@ public class Bullet {
         this.shooterID = shooterID;
     }
 
-    public void move(){
+    public void move() {
         x += vx;
         y += vy;
     }
 
-    public void setColor(Color color){
+    public void setColor(Color color) {
         this.color = color;
     }
 
-    public void setPosition(int x, int y){
+    public void setPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public void draw(Graphics g){
+    public void draw(Graphics g) {
         g.setColor(color);
         g.fillOval(x, y, radius * 2, radius * 2);
     }
 
-    public boolean isOutOfWindow(){
-        if(x < 0 || w < x || y < 0 || h < y){
+    public boolean isOutOfWindow() {
+        if (x < 0 || w < x || y < 0 || h < y) {
             return true;
         }
         return false;
     }
 
-    public void setX(int x){
+    public void setX(int x) {
         this.x = x;
     }
-    public int getX(){
+
+    public int getX() {
         return x;
     }
-    public void setY(int y){
+
+    public void setY(int y) {
         this.y = y;
     }
-    public int getY(){
+
+    public int getY() {
         return y;
     }
-    public void setVx(int vx){
+
+    public void setVx(int vx) {
         this.vx = vx;
     }
-    public int getVx(){
+
+    public int getVx() {
         return vx;
     }
-    public void setVy(int vy){
+
+    public void setVy(int vy) {
         this.vy = vy;
     }
-    public int getVy(){
+
+    public int getVy() {
         return vy;
     }
-    public void setRadius(int radius){
+
+    public void setRadius(int radius) {
         this.radius = radius;
     }
-    public int getRadius(){
+
+    public int getRadius() {
         return radius;
     }
-    public int getShooterID(){
+
+    public int getShooterID() {
         return shooterID;
     }
 }// bullet end

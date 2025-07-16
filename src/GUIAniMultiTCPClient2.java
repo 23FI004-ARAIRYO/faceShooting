@@ -56,11 +56,13 @@ public class GUIAniMultiTCPClient2 extends JFrame implements KeyListener, Window
         // HPチェックの定期スレッド（ゲームオーバー検出）
         new Thread(() -> {
             while (true) {
+                javax.swing.JFrame frontFrame = new javax.swing.JFrame();
+                frontFrame.setAlwaysOnTop(true); // 常に最前面
                 try {
                     Thread.sleep(500);
                     String result = doQueryAccess("check," + clientId);
                     if ("dead".equals(result)) {
-                        int option = javax.swing.JOptionPane.showConfirmDialog(null,
+                        int option = javax.swing.JOptionPane.showConfirmDialog(frontFrame,
                                 "ゲームオーバー！もう一度遊びますか？",
                                 "Game Over",
                                 javax.swing.JOptionPane.YES_NO_OPTION);

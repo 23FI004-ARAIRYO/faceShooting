@@ -44,7 +44,7 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
         JFrame frame = new JFrame("GUIAnimationFaceObjMain");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(animation);
-        frame.setSize(WINDOW_SIZE + 200, WINDOW_SIZE);
+        frame.setSize(WINDOW_SIZE, WINDOW_SIZE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         /* Frame関係調整終了：終了 */
@@ -330,8 +330,8 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
     }
 
     private void drawRanking(Graphics2D g2, int w) {
-        g2.setColor(new Color(0, 0, 0, 240)); // 半透明黒背景
-        g2.fillRect(w - 160, 20, 140, 20 + myBallRims.length * 20);
+        g2.setColor(new Color(0, 0, 0, 180)); // 半透明黒背景
+        g2.fillRect(w - 160, 20, 140, 20 + 100);
 
         g2.setColor(Color.white);
         g2.drawString("=== RANKING ===", w - 150, 35);
@@ -340,7 +340,7 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
         List<GUIAnimationBall> sortedList = new ArrayList<>(Arrays.asList(myBallRims));
         sortedList.sort((a, b) -> Integer.compare(b.getScore(), a.getScore()));
 
-        for (int i = 0; i < sortedList.size(); i++) {
+        for (int i = 0; i < Math.min(5, sortedList.size()); i++) {
             GUIAnimationBall ball = sortedList.get(i);
             String name = ball.name;
             int score = ball.getScore();

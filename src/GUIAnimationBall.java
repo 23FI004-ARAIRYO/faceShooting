@@ -185,7 +185,7 @@ class GUIAnimationBall {
     }
 
     public void revive() {
-        currentHP = 100;
+        currentHP = 50;
         isDead = false;
     }
 
