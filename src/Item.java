@@ -5,7 +5,7 @@ import java.awt.Graphics;
 public class Item {
 
     public static final int BIGGER_BULLET = 0;
-    public static final int SPEED_UP = 1;
+    public static final int FASTER_BULLET = 1;
     public static final int HEAL_HP = 2;
     public static final int BOMB = 3;
     public static final int ITEM_VARIATION = 4;
@@ -34,7 +34,7 @@ public class Item {
             case BIGGER_BULLET:
                 setColor(Color.RED);
                 break;
-            case SPEED_UP:
+            case FASTER_BULLET:
                 setColor(Color.BLUE);
                 break;
             case HEAL_HP:
@@ -71,7 +71,7 @@ public class Item {
             case BIGGER_BULLET:
                 g.drawString("+", x + radius - 3, y + radius + 4); // 中心にマーク描画
                 break;
-            case SPEED_UP:
+            case FASTER_BULLET:
                 g.drawString("⇒", x + radius - 6, y + radius + 4);
                 break;
             case HEAL_HP:

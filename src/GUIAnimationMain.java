@@ -282,7 +282,7 @@ public class GUIAnimationMain extends JPanel implements ActionListener {
                             case Item.BIGGER_BULLET:
                                 myBallRims[j].setRadiusOfBullet(myBallRims[j].getRadiusOfBullet() + 2);
                                 break;
-                            case Item.SPEED_UP:
+                            case Item.FASTER_BULLET:
                                 myBallRims[j].setVXOfBullet(myBallRims[j].getVXOfBullet() + 3);
                                 myBallRims[j].setVYOfBullet(myBallRims[j].getVYOfBullet() + 3);
                                 break;
